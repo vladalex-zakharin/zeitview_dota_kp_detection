@@ -1,0 +1,6 @@
+models/checkpoints/
+outputs/
+__pycache__/
+*.pyc
+*.pt
+data/raw/train/images/
