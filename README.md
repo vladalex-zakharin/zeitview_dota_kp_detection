@@ -1,14 +1,14 @@
 # ZeitView - DOTA Keypoint Detection — Vlad Zakharin
 
-This is a simple keypoint detection pipeline using a fixed-number regression model.
+## 🔁 Heatmap-Based Model (v2)
 
-## Structure
-
-- `scripts/model.py`: ResNet18 model with a fully connected head
-- `scripts/dataset.py`: Loads images and center points from JSON
-- `scripts/train.py`: Trains the model using MSE on fixed keypoints
+- Replaced fixed-size keypoint regression with a heatmap output model
+- Model now outputs a `(1, 128, 128)` heatmap for each input image
+- Training uses MSE between predicted and ground truth Gaussian blobs
+- Heatmaps are generated inline inside `dataset.py`
 
 ## Training
 
 ```bash
 python scripts/train.py
+```
