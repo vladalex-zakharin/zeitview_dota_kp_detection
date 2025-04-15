@@ -3,4 +3,4 @@ outputs/
 __pycache__/
 *.pyc
 *.pt
-data/raw/train/images/
+data/raw/
