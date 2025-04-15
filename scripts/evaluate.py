@@ -24,7 +24,7 @@ dataset = DOTAKeypointHeatmapDataset(
 loader = DataLoader(dataset, batch_size=1, shuffle=False)
 
 # Model
-model = KeypointHeatmapResNet().to(DEVICE)
+model = KeypointHeatmapResNet(output_size=HEATMAP_SIZE).to(DEVICE)
 model.load_state_dict(torch.load(CHECKPOINT_PATH, map_location=DEVICE))
 model.eval()
 

@@ -4,12 +4,12 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from dataset import DOTAKeypointHeatmapDataset
 from model import KeypointHeatmapResNet
+from utils import HEATMAP_SIZE
 import torchvision.transforms as T
 from tqdm import tqdm
 from utils import get_transforms
 
 # Configuration
-INPUT_IMAGE_SIZE = (1024, 1024)
 EPOCHS = 10
 BATCH_SIZE = 4
 LEARNING_RATE = 1e-4
@@ -26,7 +26,7 @@ dataset = DOTAKeypointHeatmapDataset(
 loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
 # Model
-model = KeypointHeatmapResNet().to(DEVICE)
+model = KeypointHeatmapResNet(output_size=HEATMAP_SIZE).to(DEVICE)
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
 

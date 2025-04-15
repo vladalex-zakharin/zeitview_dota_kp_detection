@@ -1,3 +1,5 @@
+# scripts/infer.py
+
 import torch
 from PIL import Image, ImageDraw
 import torchvision.transforms as T
@@ -5,17 +7,17 @@ from model import KeypointHeatmapResNet
 from utils import extract_keypoints_from_heatmap
 from utils import HEATMAP_SIZE
 from utils import get_transforms
+import matplotlib.pyplot as plt
 import os
 
 # Config
-CHECKPOINT_PATH = "models/checkpoints/epoch_1.pth"
+CHECKPOINT_PATH = "models/checkpoints/epoch_3.pth"
 IMAGE_PATH = "data/raw/train/images/P0001.png"
 OUTPUT_PATH = "outputs/infer_P0001.png"
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-breakpoint()
 # Load model
-model = KeypointHeatmapResNet().to(DEVICE)
+model = KeypointHeatmapResNet(output_size=HEATMAP_SIZE).to(DEVICE)
 model.load_state_dict(torch.load(CHECKPOINT_PATH, map_location=DEVICE))
 model.eval()
 
@@ -28,6 +30,14 @@ input_tensor = transform(image).unsqueeze(0).to(DEVICE)
 # Inference
 with torch.no_grad():
     pred_heatmap = model(input_tensor)
+
+heatmap_tensor = pred_heatmap[0][0].cpu().detach()
+
+plt.imshow(heatmap_tensor, cmap="hot")
+plt.title("Predicted Heatmap - Keypoint 0")
+plt.colorbar()
+plt.savefig("outputs/pred_heatmap.png")  # Save if needed
+plt.show()
 
 keypoints = extract_keypoints_from_heatmap(pred_heatmap[0], threshold=0.3)
 

@@ -22,8 +22,9 @@ class KeypointHeatmapResNet(nn.Module):
             nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False),  # 32 -> 64
             nn.Conv2d(128, 64, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
-            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False),  # 64 -> 128 ✅
+            nn.Upsample(scale_factor=2, mode='bilinear', align_corners=False),  # 64 -> 128
             nn.Conv2d(64, 1, kernel_size=1),
+            nn.Upsample(size=output_size, mode='bilinear', align_corners=False),   # 128 -> to custom output size
             nn.Sigmoid()
         )
 
